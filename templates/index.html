@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Meus Hábitos</h2>
+        <a href="/add" class="btn btn-primary">+ Adicionar Hábito</a>
+    </div>
+
+    {% for habit in habits %}
+        <div class="card mb-3 shadow-sm">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <!-- Informações do Hábito e Streak -->
+                <div class="text-start">
+                    <h5 class="card-title mb-1">
+                        {{ habit.title }}
+                        <!-- Badge do Streak com Fogo 🔥 -->
+                        <span class="badge bg-warning text-dark ms-2">
+                            🔥 {{ habit.streak }} {{ 'dia' if habit.streak == 1 else 'dias' }}
+                        </span>
+                    </h5>
+                    <p class="card-text text-muted small mb-0">
+                        Frequência: {{ habit.frequency }}
+                    </p>
+                </div>
+
+                <!-- Botões de Ação -->
+                <div class="d-flex align-items-center gap-2">
+                    <!-- Alterna o botão de acordo com a conclusão de hoje -->
+                    {% if habit.is_completed %}
+                        <form action="/complete" method="post" class="m-0">
+                            <input type="hidden" name="habit_id" value="{{ habit.id }}">
+                            <button type="submit" class="btn btn-success">
+                                ✓ Feito hoje!
+                            </button>
+                        </form>
+                    {% else %}
+                        <form action="/complete" method="post" class="m-0">
+                            <input type="hidden" name="habit_id" value="{{ habit.id }}">
+                            <button type="submit" class="btn btn-outline-primary">
+                                Concluir
+                            </button>
+                        </form>
+                    {% endif %}
+
+                    <!-- Botão de Deletar Hábito -->
+                    <form action="/delete" method="post" class="m-0">
+                        <input type="hidden" name="id" value="{{ habit.id }}">
+                        <button type="submit" class="btn btn-outline-danger btn-sm">
+                            Excluir
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <!-- Caso o usuário ainda não tenha cadastrado hábitos -->
+        <div class="text-center py-5">
+            <p class="text-muted fs-5">Você ainda não cadastrou nenhum hábito.</p>
+            <a href="/add" class="btn btn-outline-primary">Cadastrar meu primeiro hábito</a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

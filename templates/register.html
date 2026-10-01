@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <h2 class="text-center mb-4">Criar Conta</h2>
+        <form action="/register" method="post">
+            <div class="mb-3">
+                <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Usuário" type="text" required>
+            </div>
+            <div class="mb-3">
+                <input class="form-control" name="password" placeholder="Senha" type="password" required>
+            </div>
+            <div class="mb-3">
+                <input class="form-control" name="confirmation" placeholder="Confirme a Senha" type="password" required>
+            </div>
+            <button class="btn btn-primary w-100" type="submit">Cadastrar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
